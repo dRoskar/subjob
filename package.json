@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/dRoskar/subjob/issues"
   },
-  "homepage": "https://github.com/dRoskar/subjob#readme"
+  "homepage": "https://github.com/dRoskar/subjob#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  }
 }
