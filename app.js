@@ -7,8 +7,8 @@ function cleanSubtitleFile(filePath) {
       return;
     }
 
-    let regexParentheses = /\(([^)]+)\)/g;
-    let regexSquareBrackets = /\[([^\]]+)]/g;
+    let regexParentheses = /^ *\(([^)]+)\) *$(?=\r?\n(?:\r?\n|\r))/gm;
+    let regexSquareBrackets =  /^ *\[([^\]]+)\] *$(?=\r?\n(?:\r?\n|\r))/gm;
 
     let countParentheses = (data.match(regexParentheses) || []).length;
     let countSquareBrackets = (data.match(regexSquareBrackets) || []).length;
@@ -43,5 +43,6 @@ if (process.argv.length < 3) {
   process.exit(1);
 }
 
-const filePath = process.argv[2];
+const filePath = process.argv[2].trim();
+console.log(`Cleaning file: ${filePath}`);
 cleanSubtitleFile(filePath);
