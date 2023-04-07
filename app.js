@@ -7,39 +7,21 @@ function cleanSubtitleFile(filePath) {
       return;
     }
 
-    let regexParentheses = /^ *\(([^)]+)\) *$(?=\r?\n(?:\r?\n|\r))/gm;
-    let regexSquareBrackets =  /^ *\[([^\]]+)\] *$(?=\r?\n(?:\r?\n|\r))/gm;
+    let regexBoth = /^ *(?:\(([^)]+)\)|\[([^\]]+)\]) *$/gm;
+    let newData = data.replace(regexBoth, '');
 
-    let countParentheses = (data.match(regexParentheses) || []).length;
-    let countSquareBrackets = (data.match(regexSquareBrackets) || []).length;
-
-    console.log(`Count of text between parentheses: ${countParentheses}`);
-    console.log(`Count of text between square brackets: ${countSquareBrackets}`);
-
-    if (countParentheses !== countSquareBrackets) {
-      let newData = data;
-
-      if (countParentheses > countSquareBrackets) {
-        newData = data.replace(regexParentheses, '');
-      } else {
-        newData = data.replace(regexSquareBrackets, '');
+    fs.writeFile(filePath, newData, 'utf8', (err) => {
+      if (err) {
+        console.error('Error writing file:', err);
+        return;
       }
-
-      fs.writeFile(filePath, newData, 'utf8', (err) => {
-        if (err) {
-          console.error('Error writing file:', err);
-          return;
-        }
-        console.log('File updated successfully');
-      });
-    } else {
-      console.log('Equal number of parentheses and square brackets. No modifications made.');
-    }
+      console.log('File updated successfully');
+    });
   });
 }
 
 if (process.argv.length < 3) {
-  console.error('Usage: node app.js <path_to_srt_file>');
+  console.error('Usage: node app.js <path_to_subtitle_file>');
   process.exit(1);
 }
 
